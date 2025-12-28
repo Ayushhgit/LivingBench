@@ -31,7 +31,7 @@ services:
       timeout: 5s
       retries: 5
 
-  # MLflow for experiment tracking (optional)
+  # MLflow 
   mlflow:
     image: ghcr.io/mlflow/mlflow:v2.9.2
     container_name: livingbench-mlflow
