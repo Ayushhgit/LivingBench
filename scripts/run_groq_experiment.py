@@ -1,20 +1,6 @@
-#!/usr/bin/env python3
 """
 LivingBench Experiment with Groq Models.
-
 Run evaluation across multiple Groq-hosted models to compare their capabilities.
-
-Usage:
-    # Set up .env file with GROQ_API_KEY, then:
-    python scripts/run_groq_experiment.py --n-tasks 50
-
-Available Groq models (as of Dec 2024):
-    - llama-3.3-70b-versatile (recommended, best quality)
-    - llama-3.1-8b-instant (fast, good for testing)
-    - llama-3.2-90b-vision-preview (multimodal)
-    - gemma2-9b-it (Google's Gemma 2)
-
-Note: Check https://console.groq.com/docs/models for current model availability.
 """
 
 import argparse
@@ -29,7 +15,7 @@ try:
     from dotenv import load_dotenv
     load_dotenv()
 except ImportError:
-    pass  # python-dotenv not installed, rely on environment variables
+    pass  
 
 from livingbench.models.groq import GroqModel
 from livingbench.core.config import LivingBenchConfig
