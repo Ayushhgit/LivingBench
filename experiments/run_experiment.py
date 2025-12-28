@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 LivingBench Experiment Runner.
 
@@ -9,10 +8,6 @@ Orchestrates complete evaluation experiments:
 4. Robustness testing
 5. Metrics computation
 6. Report generation
-
-Usage:
-    python -m experiments.run_experiment --config configs/experiments/default.yaml
-    python -m experiments.run_experiment --models gpt-4 claude-3 --n-tasks 100
 """
 
 from __future__ import annotations
