@@ -183,8 +183,8 @@ Analysis includes:
 
 ```bash
 # Clone the repository
-git clone https://github.com/Ayushhgit/AI-Project.git
-cd AI-Project
+git clone https://github.com/Ayushhgit/LivingBench.git
+cd LivingBench
 
 # Install with pip (Python 3.10+)
 pip install -e ".[all]"
@@ -319,31 +319,8 @@ temporal:
 
 ---
 
-## Citation
-
-```bibtex
-@software{livingbench2024,
-  title = {LivingBench: A Continually Updating, Self-Auditing Benchmark for LLM Evaluation},
-  author = {Ayush},
-  year = {2024},
-  url = {https://github.com/Ayushhgit/AI-Project}
-}
-```
-
----
-
 ## License
 
 MIT License. See [LICENSE](LICENSE) for details.
 
 ---
-
-## Contributing
-
-We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-Key areas for contribution:
-- New task sources and generators
-- Additional judge implementations
-- Improved robustness strategies
-- Visualization and analysis tools
