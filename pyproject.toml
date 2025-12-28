@@ -1,0 +1,104 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "livingbench"
+version = "0.1.0"
+description = "A Continually Updating, Self-Auditing Benchmark for LLM Reasoning, Tool Use, and Learning Over Time"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    { name = "Ayush" }
+]
+keywords = [
+    "llm",
+    "evaluation",
+    "benchmark",
+    "reasoning",
+    "tool-use",
+    "ai-safety"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "pydantic>=2.0",
+    "pyyaml>=6.0",
+    "numpy>=1.24",
+    "scipy>=1.10",
+    "pandas>=2.0",
+    "matplotlib>=3.7",
+    "seaborn>=0.12",
+    "httpx>=0.24",
+    "tenacity>=8.2",
+    "structlog>=23.1",
+    "rich>=13.0",
+    "tiktoken>=0.5",
+    "scikit-learn>=1.3",
+    "jsonlines>=4.0",
+    "python-dotenv>=1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4",
+    "pytest-asyncio>=0.21",
+    "pytest-cov>=4.1",
+    "mypy>=1.5",
+    "ruff>=0.1",
+    "pre-commit>=3.4",
+    "bandit>=1.7",
+]
+openai = ["openai>=1.0"]
+anthropic = ["anthropic>=0.18"]
+groq = ["groq>=0.4"]
+# LLMOps/MLOps dependencies
+tracking = [
+    "mlflow>=2.9",
+    "wandb>=0.16",
+]
+cache = [
+    "redis>=5.0",
+]
+ops = [
+    "livingbench[tracking,cache]",
+]
+all = [
+    "livingbench[dev,openai,anthropic,groq,ops]",
+]
+
+[project.scripts]
+livingbench = "livingbench.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["livingbench"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP", "B", "C4", "SIM"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+addopts = "-v --cov=livingbench --cov-report=term-missing"
+
+[tool.bandit]
+exclude_dirs = ["tests", "scripts"]
+skips = ["B101"]  # Skip assert warnings

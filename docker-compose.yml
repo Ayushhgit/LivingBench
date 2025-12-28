@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  # Main LivingBench application
+  livingbench:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: livingbench
+    env_file:
+      - .env
+    volumes:
+      - ./outputs:/app/outputs
+      - ./configs:/app/configs:ro
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: python scripts/run_groq_experiment.py --n-tasks 50
+
+  # Redis 
+  cache:
+    image: redis:7-alpine
+    container_name: livingbench-cache
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # MLflow for experiment tracking (optional)
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.9.2
+    container_name: livingbench-mlflow
+    ports:
+      - "5000:5000"
+    volumes:
+      - mlflow_data:/mlflow
+    environment:
+      - MLFLOW_TRACKING_URI=sqlite:///mlflow/mlflow.db
+      - MLFLOW_DEFAULT_ARTIFACT_ROOT=/mlflow/artifacts
+    command: mlflow server --host 0.0.0.0 --port 5000 --backend-store-uri sqlite:///mlflow/mlflow.db --default-artifact-root /mlflow/artifacts
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  redis_data:
+  mlflow_data:
+
+networks:
+  default:
+    name: livingbench-network

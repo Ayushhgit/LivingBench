@@ -1,0 +1,100 @@
+# LivingBench Base Configuration
+# ================================
+# This is the default configuration for LivingBench experiments.
+# Override specific values in experiment-specific configs.
+
+experiment_name: "default"
+experiment_description: "Default LivingBench experiment"
+random_seed: 42
+
+# Task Generation Settings
+task_generation:
+  # GitHub source
+  github_enabled: false  # Disabled by default (requires API token)
+  github_repos:
+    - "python/cpython"
+    - "pytorch/pytorch"
+  github_issues_per_repo: 50
+  github_min_issue_length: 100
+
+  # ArXiv source
+  arxiv_enabled: false  # Disabled by default (requires network)
+  arxiv_categories:
+    - "cs.CL"
+    - "cs.LG"
+  arxiv_papers_per_category: 50
+
+  # Synthetic sources (always available)
+  synthetic_reasoning_enabled: true
+  synthetic_math_enabled: true
+  synthetic_tasks_count: 200
+
+  # Tool use scenarios
+  tool_use_enabled: true
+  tool_scenarios_count: 100
+
+  # Caching
+  cache_dir: "data/cache"
+  cache_ttl_hours: 24
+
+# Evaluation Settings
+evaluation:
+  n_judges: 3
+  judge_models:
+    - "gpt-4-turbo"
+    - "claude-3-opus-20240229"
+    - "claude-3-sonnet-20240229"
+  judge_temperature: 0.0
+  judge_max_tokens: 1024
+
+  require_unanimous: false
+  min_agreement_threshold: 0.5
+
+  compute_skill_scores: true
+  compute_calibration: true
+  calibration_bins: 10
+
+# Robustness Testing Settings
+robustness:
+  paraphrase_enabled: true
+  n_paraphrases: 3
+  paraphrase_model: "gpt-4-turbo"
+
+  counterfactual_enabled: true
+  n_counterfactuals: 2
+  counterfactual_model: "gpt-4-turbo"
+
+  adversarial_enabled: true
+  adversarial_strategies:
+    - "character_perturbation"
+    - "semantic_trap"
+    - "instruction_injection"
+
+  memorization_threshold: 0.95
+  spurious_correlation_threshold: 0.8
+
+# Temporal Evaluation Settings
+temporal:
+  enabled: false
+  n_sessions: 5
+  tasks_per_session: 20
+  session_interval_hours: 24
+
+  track_error_correction: true
+  track_memory_updates: true
+  track_performance_trend: true
+
+# Paths
+data_dir: "data"
+output_dir: "outputs"
+log_dir: "logs"
+
+# Logging
+log_level: "INFO"
+log_to_file: true
+log_to_console: true
+
+# Execution
+max_concurrent_requests: 10
+save_intermediate_results: true
+resume_from_checkpoint: true
